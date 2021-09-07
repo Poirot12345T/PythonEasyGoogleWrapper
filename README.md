@@ -25,8 +25,9 @@ service = GeneralService(app_type, client_secret_file, API_name, API_version, sc
 ````
 where:
 - `app_type` is only a describer to properly name the log message (for example: log for `app_type = 'Client'` initialised at 1st January 2000, the name would be `logClient_2000-01-01.txt`)
- - API name, version and scopes may be found in the time of setting up the project, scopes as list
- The class includes `refresh()` function, which refreshes OAuth token (you have to call it separately, when `service.cred.expired` turns into `True`).
+- API name, version and scopes may be found in the time of setting up the project, scopes as list
+
+The class includes `refresh()` function, which refreshes OAuth token (you have to call it separately, when `service.cred.expired` turns into `True`).
  
  connection for the API itself is hidden under `service.communicate` object, logging using `log_message()` under `service.log`.
 
