@@ -3,6 +3,8 @@
 # PythonEasyGoogleWrapper
 self-made light wrapper for Google API using Python
 
+main file: `google_wrapup.py`
+
 ### Parts included:
 - logger (enhanced `print()` function storing messages in a file)
 - general Google Service (service setup)
