@@ -14,6 +14,8 @@ main file: `google_wrapup.py`
 - [ ] Google Photos API
 - [ ] Google Spreadsheet API
 - [ ] Google Calendar API
+- [ ] Google Mail API
+- [ ] Google Translator API
 
 ## How to use
 
