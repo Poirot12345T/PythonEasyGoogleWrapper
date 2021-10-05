@@ -20,6 +20,7 @@ class GeneralService:
             cred = pickle.load(pickle_content)
             self.cred_expiry = cred.expiry
             self.cred = cred
+            
     def refresh(self):
         self.cred.refresh(Request())
         with open(self.pickle_file, 'wb') as token:
@@ -30,6 +31,7 @@ class GeneralService:
 class DriveService(GeneralService):
     def __init__(self, app_type, secret_file):
         super().__init__(app_type, secret_file, 'drive', 'v3', ["https://www.googleapis.com/auth/drive"])
+        
     def get_mimetype(self, file_name):
         """
         returns a MIME type of the file
