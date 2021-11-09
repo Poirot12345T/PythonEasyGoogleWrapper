@@ -1,5 +1,4 @@
 import pathlib
-from google_service_creation import create_service
 from google_exceptions import UnknownFileType
 from googleapiclient.http import MediaFileUpload
 import io
