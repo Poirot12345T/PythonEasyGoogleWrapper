@@ -1,33 +1,11 @@
 import pathlib
-from logger import Logger
 from google_service_creation import create_service
 from google_exceptions import UnknownFileType
-import pickle
-from time import sleep
-from google.auth.transport.requests import Request
 from googleapiclient.http import MediaFileUpload
 import io
 from googleapiclient.http import MediaIoBaseDownload
+from general_service import GeneralService
 
-class GeneralService:
-    def __init__(self, app_type, client_secret_file, api_name, api_version, *scopes):    
-        self.log = Logger(app_type, f'{api_name} service init')
-        broken_scopes = [scope for scope in scopes[0]]
-        self.communicate = create_service(client_secret_file, api_name, api_version, broken_scopes)
-        self.log.log_message('service created sucessfully')
-        self.pickle_file = f'token_{api_name}_{api_version}.pickle'
-        with open(self.pickle_file, 'rb') as pickle_content:
-            cred = pickle.load(pickle_content)
-            self.cred_expiry = cred.expiry
-            self.cred = cred
-            
-    def refresh(self):
-        self.cred.refresh(Request())
-        with open(self.pickle_file, 'wb') as token:
-            pickle.dump(self.cred, token)
-        self.cred_expiry = self.cred.expiry
-
-        
 class DriveService(GeneralService):
     def __init__(self, app_type, secret_file):
         super().__init__(app_type, secret_file, 'drive', 'v3', ["https://www.googleapis.com/auth/drive"])
