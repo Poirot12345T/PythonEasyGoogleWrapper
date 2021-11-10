@@ -26,8 +26,11 @@ def create_service(client_secret_file, api_name, api_version, scopes):
         with open(pickle_file, 'wb') as token:
             pickle.dump(cred, token)
 
-    
-    service = build(api_name, api_version, credentials=cred)
-    return service
+    if api_name == 'photoslibrary':
+        service = build(api_name, api_version, credentials=cred, static_discovery=False)
+        return service
+    else: 
+        service = build(api_name, api_version, credentials=cred)
+
     #except Exception as e:
         #raise UnableToConnect(e)
