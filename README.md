@@ -11,7 +11,7 @@ main file: `google_wrapup.py`
 
 ### Specific services (checked already done and working, unchecked planned to make)
 - [x] Drive API
-- [ ] Google Photos API
+- [x] Google Photos API
 - [ ] Google Spreadsheet API
 - [ ] Google Calendar API
 - [ ] Google Mail API
