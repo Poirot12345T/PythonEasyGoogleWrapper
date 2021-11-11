@@ -31,6 +31,4 @@ def create_service(client_secret_file, api_name, api_version, scopes):
         return service
     else: 
         service = build(api_name, api_version, credentials=cred)
-
-    #except Exception as e:
-        #raise UnableToConnect(e)
+        
