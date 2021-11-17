@@ -13,15 +13,16 @@ class DriveService(GeneralService):
         returns a MIME type of the file
         """
         suffix = file_name.split('.')[1].lower()
-        if suffix == "mov":
-            return "video/quicktime"
-        elif suffix == "jpg":
-            return "image/jpeg"
-        elif suffix == "txt":
-            return "text/plain"
-        else:
-            self.log.log_message(f'{file_name} is unsupported file type')
-            raise UnknownFileType
+        match suffix:
+            case ["mov"]:
+                return "video/quicktime"
+            case ["jpg"]:
+                return "image/jpeg"
+            case ["txt"]:
+                return "text/plain"
+            case _:
+                self.log.log_message(f'{file_name} is unsupported file type')
+                raise UnknownFileType
     
     def search_in_folder(self, id):
         """
