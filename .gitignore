@@ -1,6 +1,6 @@
 __pycache__
 client_secret.json
-test.py
-test.json
+test*.py
+test*.json
 token*
 log*
