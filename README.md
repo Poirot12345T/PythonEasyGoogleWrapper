@@ -1,5 +1,3 @@
-!NOTE! all the code would be uploaded in next couple of days after properly commenting the code
-
 # PythonEasyGoogleWrapper
 self-made light wrapper for Google API using Python
 
