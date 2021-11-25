@@ -1,8 +1,7 @@
 import pathlib
 from google_exceptions import UnknownFileType
-from googleapiclient.http import MediaFileUpload
+from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 import io
-from googleapiclient.http import MediaIoBaseDownload
 from general_service import GeneralService
 
 class DriveService(GeneralService):
