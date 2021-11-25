@@ -17,7 +17,7 @@ def create_service(client_secret_file, api_name, api_version, scopes):
         with open(pickle_file, 'rb') as token:
             cred = pickle.load(token)
     if not cred or not cred.valid:
-        while True:
+        while True: #this while loop ensures that when the if fires, and then it realises that it's not possible to run the cred.refresh(), it still runs the "else" under except expression
             if cred and cred.expired and cred.refresh_token:
                 try:
                     cred.refresh(Request())
@@ -26,10 +26,10 @@ def create_service(client_secret_file, api_name, api_version, scopes):
                     os.remove(pickle_file)
             flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes)
             cred = flow.run_local_server()
+            break
 
-            with open(pickle_file, 'wb') as token:
-                pickle.dump(cred, token)
-                break
+        with open(pickle_file, 'wb') as token:
+            pickle.dump(cred, token)
 
     
     service = build(api_name, api_version, credentials=cred)
