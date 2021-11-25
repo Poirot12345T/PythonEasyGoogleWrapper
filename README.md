@@ -43,4 +43,4 @@ Functions made:
 - `get_user_albums()` returns all the juicy output of API about user albums, including their names, links, IDs, link & ID of cover photo in form of list of dicts.
 - `get_album_info()` returns the same as `get_user_albums()`, but only for one album specified by it's ID as dict.
 
-All these functions are called directly from `service`.
+All these functions in specific cases are called directly from `service`, for example `service.search_in_folder(id)`.
