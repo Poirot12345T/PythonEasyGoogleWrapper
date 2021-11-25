@@ -42,6 +42,7 @@ The class includes basic commands for Drive operations, like `search_in_folder(i
 `PhotoService` has prefilled API version(`v1`), name(`photoslibrary`) and it's scopes(`https://apis.google.com/auth/photoslibrary/`, `https://apis.google.com/auth/photoslibrary.sharing/`), again only `app_type` and `client_secret_file` needed to fill in.
 
 Functions made:
-- `get_user_albums()` returns all the juicy output of API about user albums, including their names, links, IDs, link & ID of cover photo.
+- `get_user_albums()` returns all the juicy output of API about user albums, including their names, links, IDs, link & ID of cover photo in form of list of dicts.
+- `get_album_info()` returns the same as `get_user_albums()`, but only for one album specified by it's ID as dict.
 
 All these functions are called directly from `service`.
