@@ -24,3 +24,15 @@ class PhotoService(GeneralService):
             "album":{"title":name_album}
         }
         return self.communicate.albums().create(body=request).execute()
+
+    def share_album(self, album_id, collaboration=False, commentary=False) -> dict:
+        request = {
+            "sharedAlbumOptions":{
+                "isCollaborative":collaboration,
+                "isCommentable":commentary
+            }
+        }
+        return self.communicate.albums().share(albumId=album_id, body=request).execute()
+    
+    def unshare_album(self, album_id):
+        self.communicate.albums().unshare(albumId=album_id).execute()
