@@ -34,4 +34,4 @@ The class includes `refresh()` function, which refreshes OAuth token (you have t
 ### Specific case - Google Drive
 `DriveService` has pre-filled API version (`v3`), name (`drive`) and it's scope (`https://apis.google.com/auth/drive/`). You have to fill only `app_type` and `client_secret_file`. The class includes basic commands for Drive operations, like `search_in_folder(id)`, which provides list of all files in folder of given ID, or `upload(what, where, to)`, where `what` is the name of the file itself, `where` is a path to the file and `to` is an ID of target folder, or `download(what_id, what_name, where)`, where `where` is path to the folder to store downloaded files. You can also use `delete(id)`, where `id` is ID of the deleted file.
 
-All these functions are called directly from `service`.
+All these functions in specific cases are called directly from `service`, for example `service.search_in_folder(id)`.
