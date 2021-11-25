@@ -42,5 +42,6 @@ The class includes basic commands for Drive operations, like `search_in_folder(i
 Functions made:
 - `get_user_albums()` returns all the juicy output of API about user albums, including their names, links, IDs, link & ID of cover photo in form of list of dicts.
 - `get_album_info()` returns the same as `get_user_albums()`, but only for one album specified by it's ID as dict.
+- `create_album()` creates album in Google Photos and returns the same info as `get_album_info()` for newly created album.
 
 All these functions in specific cases are called directly from `service`, for example `service.search_in_folder(id)`.

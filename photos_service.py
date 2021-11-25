@@ -18,3 +18,9 @@ class PhotoService(GeneralService):
 
     def get_album_info(self, album_id) -> dict:
         return self.communicate.albums().get(albumId=album_id).execute()
+    
+    def create_album(self, name_album) -> dict:
+        request = {
+            "album":{"title":name_album}
+        }
+        return self.communicate.albums().create(body=request).execute()
