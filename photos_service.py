@@ -1,4 +1,5 @@
 from general_service import GeneralService
+from google_exceptions import BadInputType
 
 class PhotoService(GeneralService):
     def __init__(self, app_type, secret_file):
@@ -36,3 +37,15 @@ class PhotoService(GeneralService):
     
     def unshare_album(self, album_id):
         self.communicate.albums().unshare(albumId=album_id).execute()
+
+    def get_media_info(self, media_id) -> dict:
+        return self.communicate.mediaItems().get(mediaItemId=media_id).execute()
+
+    def mass_get_media_info(self, media_ids) -> list:
+        if not type(media_ids) == list:
+            raise BadInputType("input type should be list")
+        
+        ret_val = []
+        for id in media_ids:
+            ret_val.append(self.get_media_info(id))
+        return ret_val
