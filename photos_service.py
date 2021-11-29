@@ -1,5 +1,8 @@
+from requests.api import request
 from general_service import GeneralService
 from google_exceptions import BadInputType
+import requests
+import pickle
 
 class PhotoService(GeneralService):
     def __init__(self, app_type, secret_file):
@@ -53,3 +56,29 @@ class PhotoService(GeneralService):
         for id in media_ids:
             ret_val.append(self.get_media_info(id))
         return ret_val
+
+    def upload(self, where, name):
+        token = pickle.load(open(self.pickle_file, 'rb'))
+        upload_url = 'https://photoslibrary.googleapis.com/v1/uploads'
+        header = {
+            'Authorization': f'Bearer {token.token}',
+            'Content-Type': 'application/octet-stream',
+            'X-Goog-Upload-Protocol': 'raw',
+            'X-Goog-Upload-File-Name':str(name)
+        }
+        img = open(where, 'rb').read()
+        req_response = requests.post(upload_url, headers=header, data=img)
+
+        request_body = {
+            'newMediaItems':[
+                {
+                    'simpleMediaItem': {
+                        'uploadToken': req_response.content.decode('utf8')
+
+                    }
+                }
+            ]
+        }
+
+        response = self.communicate.mediaItems().batchCreate(body=request_body).execute()
+        return response
