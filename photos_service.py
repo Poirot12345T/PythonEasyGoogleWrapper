@@ -42,6 +42,10 @@ class PhotoService(GeneralService):
         return self.communicate.mediaItems().get(mediaItemId=media_id).execute()
 
     def mass_get_media_info(self, media_ids) -> list:
+        """
+        works like cycled get_media_info(), it may run over the API limit quicker
+        """
+
         if not type(media_ids) == list:
             raise BadInputType("input type should be list")
         
