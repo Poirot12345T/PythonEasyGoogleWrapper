@@ -6,6 +6,7 @@ from google.auth.transport.requests import Request
 class GeneralService:
     def __init__(self, app_type, client_secret_file, api_name, api_version, user_mail, *scopes):    
         self.log = Logger(app_type, f'{api_name} service init')
+        mail_without_dot = user_mail.replace(".","-")
         broken_scopes = [scope for scope in scopes[0]]
         self.communicate = create_service(client_secret_file, api_name, api_version, broken_scopes)
         self.log.log_message('service created sucessfully')
