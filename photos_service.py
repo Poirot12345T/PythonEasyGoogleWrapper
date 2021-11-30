@@ -85,7 +85,10 @@ class PhotoService(GeneralService):
 
     def add_to_album(self, media_ids, album_id):
         if type(media_ids) != list:
-            raise BadInputType("input type of 'media_ids' should be list")
+            if type(media_ids) == str:
+                media_ids = [media_ids]
+            else:    
+                raise BadInputType("input type of 'media_ids' should be list")
         request_body = {
             'mediaItemIds':media_ids
         }
