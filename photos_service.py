@@ -49,8 +49,8 @@ class PhotoService(GeneralService):
         works like cycled get_media_info(), it may run over the API limit quicker
         """
 
-        if not type(media_ids) == list:
-            raise BadInputType("input type should be list")
+        if type(media_ids) != list:
+            raise BadInputType("input type of 'media_ids' should be list")
         
         ret_val = []
         for id in media_ids:
@@ -81,4 +81,17 @@ class PhotoService(GeneralService):
         }
 
         response = self.communicate.mediaItems().batchCreate(body=request_body).execute()
+        return response
+
+    def add_to_album(self, media_ids, album_id):
+        if type(media_ids) != list:
+            raise BadInputType("input type of 'media_ids' should be list")
+        request_body = {
+            'mediaItemIds':media_ids
+        }
+
+        response = self.communicate.albums().batchAddmediaItems(
+            albumId= album_id,
+            body=request_body
+        ).execute()
         return response
