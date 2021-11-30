@@ -5,8 +5,8 @@ import io
 from general_service import GeneralService
 
 class DriveService(GeneralService):
-    def __init__(self, app_type, secret_file):
-        super().__init__(app_type, secret_file, 'drive', 'v3', ["https://www.googleapis.com/auth/drive"])
+    def __init__(self, app_type, secret_file, user_mail):
+        super().__init__(app_type, secret_file, 'drive', 'v3', user_mail, ["https://www.googleapis.com/auth/drive"])
         
     def get_mimetype(self, file_name):
         """
