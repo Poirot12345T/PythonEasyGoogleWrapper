@@ -93,7 +93,7 @@ class PhotoService(GeneralService):
             'mediaItemIds':media_ids
         }
 
-        response = self.communicate.albums().batchAddmediaItems(
+        response = self.communicate.albums().batchAddMediaItems(
             albumId= album_id,
             body=request_body
         ).execute()
