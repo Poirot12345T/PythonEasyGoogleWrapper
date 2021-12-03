@@ -88,7 +88,7 @@ class PhotoService(GeneralService):
             if type(media_ids) == str:
                 media_ids = [media_ids]
             else:    
-                raise BadInputType("input type of 'media_ids' should be list")
+                raise BadInputType("input type of 'media_ids' should be list or a string")
         request_body = {
             'mediaItemIds':media_ids
         }
