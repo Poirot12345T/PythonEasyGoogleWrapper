@@ -98,3 +98,19 @@ class PhotoService(GeneralService):
             body=request_body
         ).execute()
         return response
+
+    def remove_from_album(self, media_ids, album_id):
+        if type(media_ids) != list:
+            if type(media_ids) == str:
+                media_ids = [media_ids]
+            else:    
+                raise BadInputType("input type of 'media_ids' should be list or a string")
+        request_body = {
+            'mediaItemIds':media_ids
+        }
+
+        response = self.communicate.albums().batchRemoveMediaItems(
+            albumId= album_id,
+            body=request_body
+        ).execute()
+        return response
