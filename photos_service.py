@@ -3,6 +3,7 @@ from general_service import GeneralService
 from google_exceptions import BadInputType
 import requests
 import pickle
+import os
 
 class PhotoService(GeneralService):
     def __init__(self, app_type, secret_file):
@@ -114,3 +115,10 @@ class PhotoService(GeneralService):
             body=request_body
         ).execute()
         return response
+
+    def download_file(self, media_id, donwload_folder, file_name):
+        url = self.get_media_info(media_id)["baseUrl"]
+        resp = requests.get(url)
+        self.log.log_message(f"downloading {file_name}")
+        with open(os.path.join(donwload_folder, file_name), "wb") as f:
+            f.write(resp.content)
