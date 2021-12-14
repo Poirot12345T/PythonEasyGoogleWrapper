@@ -111,7 +111,7 @@ class PhotoService(GeneralService):
         }
 
         response = self.communicate.albums().batchRemoveMediaItems(
-            albumId= album_id,
+            albumId=album_id,
             body=request_body
         ).execute()
         return response
