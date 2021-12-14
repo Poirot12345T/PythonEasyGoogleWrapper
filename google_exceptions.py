@@ -4,3 +4,6 @@ class UnableToConnect(Exception):
 
 class UnknownFileType(Exception):
     pass
+
+class BadInputType(Exception):
+    pass

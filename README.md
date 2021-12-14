@@ -9,7 +9,7 @@ main file: `google_wrapup.py`
 
 ### Specific services (checked already done and working, unchecked planned to make)
 - [x] Drive API
-- [ ] Google Photos API
+- [x] Google Photos API
 - [ ] Google Spreadsheet API
 - [ ] Google Calendar API
 - [ ] Google Mail API
@@ -32,6 +32,18 @@ The class includes `refresh()` function, which refreshes OAuth token (you have t
  connection for the API itself is hidden under `service.communicate` object, logging using `log_message()` under `service.log`.
 
 ### Specific case - Google Drive
-`DriveService` has pre-filled API version (`v3`), name (`drive`) and it's scope (`https://apis.google.com/auth/drive/`). You have to fill only `app_type` and `client_secret_file`. The class includes basic commands for Drive operations, like `search_in_folder(id)`, which provides list of all files in folder of given ID, or `upload(what, where, to)`, where `what` is the name of the file itself, `where` is a path to the file and `to` is an ID of target folder, or `download(what_id, what_name, where)`, where `where` is path to the folder to store downloaded files. You can also use `delete(id)`, where `id` is ID of the deleted file.
+`DriveService` has pre-filled API version (`v3`), name (`drive`) and it's scope (`https://apis.google.com/auth/drive/`). You have to fill only `app_type` and `client_secret_file`. 
+
+The class includes basic commands for Drive operations, like `search_in_folder(id)`, which provides list of all files in folder of given ID, or `upload(what, where, to)`, where `what` is the name of the file itself, `where` is a path to the file and `to` is an ID of target folder, or `download(what_id, what_name, where)`, where `where` is path to the folder to store downloaded files. You can also use `delete(id)`, where `id` is ID of the deleted file.
+
+### Specific case - Google Photos
+`PhotoService` has prefilled API version(`v1`), name(`photoslibrary`) and it's scopes(`https://apis.google.com/auth/photoslibrary/`, `https://apis.google.com/auth/photoslibrary.sharing/`), again only `app_type` and `client_secret_file` needed to fill in.
+
+Functions made:
+- `get_user_albums()` returns all the juicy output of API about user albums, including their names, links, IDs, link & ID of cover photo in form of list of dicts.
+- `get_album_info()` returns the same as `get_user_albums()`, but only for one album specified by it's ID as dict.
+- `create_album()` creates album in Google Photos and returns the same info as `get_album_info()` for newly created album.
+- `share_album()` shares the album, using two arguments as voluntary (collaboration and comments)
+- `unshare_album()` unshares the album
 
 All these functions in specific cases are called directly from `service`, for example `service.search_in_folder(id)`.
