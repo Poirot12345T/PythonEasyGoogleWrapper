@@ -28,7 +28,9 @@ class PhotoService(GeneralService):
         request = {
             "album":{"title":name_album}
         }
-        return self.communicate.albums().create(body=request).execute()
+        reply = self.communicate.albums().create(body=request).execute()
+        self.log.log_message(f"{name_album} created successfully")
+        return reply
 
     def share_album(self, album_id, collaboration=False, commentary=False) -> dict:
         request = {
@@ -37,17 +39,20 @@ class PhotoService(GeneralService):
                 "isCommentable":commentary
             }
         }
-        return self.communicate.albums().share(albumId=album_id, body=request).execute()
+        reply = self.communicate.albums().share(albumId=album_id, body=request).execute()
+        self.log.log_message(f"album shared")
+        return reply
     
     def unshare_album(self, album_id):
         self.communicate.albums().unshare(albumId=album_id).execute()
+        self.log.log_message("album unshared")
 
     def get_media_info(self, media_id) -> dict:
         return self.communicate.mediaItems().get(mediaItemId=media_id).execute()
 
     def mass_get_media_info(self, media_ids) -> list:
         """
-        works like cycled get_media_info(), it may run over the API limit quicker
+        works like cycled get_media_info(), it may run over the API limit quicker than expected
         """
 
         if type(media_ids) != list:
@@ -59,6 +64,7 @@ class PhotoService(GeneralService):
         return ret_val
 
     def upload(self, where, name):
+        self.log.log_message(f"uploading {name}")
         token = pickle.load(open(self.pickle_file, 'rb'))
         upload_url = 'https://photoslibrary.googleapis.com/v1/uploads'
         header = {
@@ -82,6 +88,7 @@ class PhotoService(GeneralService):
         }
 
         response = self.communicate.mediaItems().batchCreate(body=request_body).execute()
+        self.log.log_message("uploaded")
         return response
 
     def add_to_album(self, media_ids, album_id):
@@ -98,6 +105,7 @@ class PhotoService(GeneralService):
             albumId= album_id,
             body=request_body
         ).execute()
+        self.log.log_message("successfully added to album")
         return response
 
     def remove_from_album(self, media_ids, album_id):
@@ -114,6 +122,7 @@ class PhotoService(GeneralService):
             albumId=album_id,
             body=request_body
         ).execute()
+        self.log.log_message("successfully removed from album")
         return response
 
     def download_file(self, media_id, donwload_folder, file_name):
@@ -122,3 +131,4 @@ class PhotoService(GeneralService):
         self.log.log_message(f"downloading {file_name}")
         with open(os.path.join(donwload_folder, file_name), "wb") as f:
             f.write(resp.content)
+        self.log.log_message(f"{file_name} downloaded")
