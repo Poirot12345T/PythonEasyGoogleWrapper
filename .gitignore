@@ -4,3 +4,4 @@ test*.py
 test*.json
 token*
 log*
+*.jpg
