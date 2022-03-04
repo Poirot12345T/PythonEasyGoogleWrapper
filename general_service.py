@@ -17,6 +17,9 @@ class GeneralService:
             self.cred = cred
             
     def refresh(self):
+        """
+        Refreshes token (the token expiry time is around 3 hours)
+        """
         self.cred.refresh(Request())
         with open(self.pickle_file, 'wb') as token:
             pickle.dump(self.cred, token)
