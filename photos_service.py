@@ -7,13 +7,12 @@ import os
 
 class PhotoService(GeneralService):
     def __init__(self, app_type, secret_file, user_mail):
-        super().__init__(app_type, secret_file,'photoslibrary','v1', user_mail, ['https://www.googleapis.com/auth/photoslibrary', 'https://www.googleapis.com/auth/photoslibrary.sharing'])
-        
+        super().__init__(app_type, secret_file, 'photoslibrary', 'v1', user_mail, ['https://www.googleapis.com/auth/photoslibrary', 'https://www.googleapis.com/auth/photoslibrary.sharing'])
+
     def get_user_albums(self) -> list:
         """
         Collects data from all albums of signed user.
         """
-
         response = self.communicate.albums().list(pageSize=50, excludeNonAppCreatedData=False).execute()
         next_page_token = response.get("nextPageToken")
         albums = response.get("albums")
@@ -31,14 +30,14 @@ class PhotoService(GeneralService):
         """
 
         return self.communicate.albums().get(albumId=album_id).execute()
-    
+
     def create_album(self, name_album: str) -> dict:
         """
         Creates album with selected name
         """
 
         request = {
-            "album":{"title":name_album}
+            "album": {"title": name_album}
         }
         reply = self.communicate.albums().create(body=request).execute()
         self.log.log_message(f"{name_album} created successfully")
@@ -50,15 +49,15 @@ class PhotoService(GeneralService):
         "collaboration" variable sets whether other people can add their photos, "commentary" variable sets ability of writing comments of other users.
         """
         request = {
-            "sharedAlbumOptions":{
-                "isCollaborative":collaboration,
-                "isCommentable":commentary
+            "sharedAlbumOptions": {
+                "isCollaborative": collaboration,
+                "isCommentable": commentary
             }
         }
         reply = self.communicate.albums().share(albumId=album_id, body=request).execute()
         self.log.log_message(f"album shared")
         return reply
-    
+
     def unshare_album(self, album_id: str) -> None:
         """
         Sets album to private
@@ -79,7 +78,7 @@ class PhotoService(GeneralService):
 
         if type(media_ids) != list:
             raise BadInputType("input type of 'media_ids' should be list")
-        
+
         ret_val = []
         for id in media_ids:
             ret_val.append(self.get_media_info(id))
@@ -96,13 +95,13 @@ class PhotoService(GeneralService):
             'Authorization': f'Bearer {token.token}',
             'Content-Type': 'application/octet-stream',
             'X-Goog-Upload-Protocol': 'raw',
-            'X-Goog-Upload-File-Name':str(name)
+            'X-Goog-Upload-File-Name': str(name)
         }
         img = open(where, 'rb').read()
         req_response = requests.post(upload_url, headers=header, data=img)
 
         request_body = {
-            'newMediaItems':[
+            'newMediaItems': [
                 {
                     'simpleMediaItem': {
                         'uploadToken': req_response.content.decode('utf8')
@@ -123,14 +122,15 @@ class PhotoService(GeneralService):
         if type(media_ids) != list:
             if type(media_ids) == str:
                 media_ids = [media_ids]
-            else:    
-                raise BadInputType("input type of 'media_ids' should be list or a string")
+            else:
+                raise BadInputType(
+                    "input type of 'media_ids' should be list or a string")
         request_body = {
-            'mediaItemIds':media_ids
+            'mediaItemIds': media_ids
         }
 
         response = self.communicate.albums().batchAddMediaItems(
-            albumId= album_id,
+            albumId=album_id,
             body=request_body
         ).execute()
         self.log.log_message("successfully added to album")
@@ -144,10 +144,11 @@ class PhotoService(GeneralService):
         if type(media_ids) != list:
             if type(media_ids) == str:
                 media_ids = [media_ids]
-            else:    
-                raise BadInputType("input type of 'media_ids' should be list or a string")
+            else:
+                raise BadInputType(
+                    "input type of 'media_ids' should be list or a string")
         request_body = {
-            'mediaItemIds':media_ids
+            'mediaItemIds': media_ids
         }
 
         response = self.communicate.albums().batchRemoveMediaItems(

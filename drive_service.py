@@ -7,7 +7,7 @@ from general_service import GeneralService
 class DriveService(GeneralService):
     def __init__(self, app_type, secret_file, user_mail):
         super().__init__(app_type, secret_file, 'drive', 'v3', user_mail, ["https://www.googleapis.com/auth/drive"])
-        
+
     def get_mimetype(self, file_name: str) -> str:
         """
         returns a MIME type of the file
@@ -22,7 +22,7 @@ class DriveService(GeneralService):
         else:
             self.log.log_message(f'{file_name} is unsupported file type')
             raise UnknownFileType
-    
+
     def search_in_folder(self, id: str) -> dict:
         """
         returns info about all files in folder as a list of dicts, where one dict includes: ID (as 'id' key), name and MIME type (key 'mimeType')
@@ -33,22 +33,24 @@ class DriveService(GeneralService):
         nextPageToken = response.get('nextPageToken')
 
         while nextPageToken:
-            response = self.communicate.files.list(q=query, pageToken=nextPageToken).execute()
+            response = self.communicate.files.list(
+                q=query, pageToken=nextPageToken).execute()
             files.extend(response.get('files'))
             nextPageToken = response.get('nextPageToken')
         return files
 
-    def upload(self, what: str, where: str, to: str) -> None: 
+    def upload(self, what: str, where: str, to: str) -> None:
         """
         Uploads a file with name  "what" and path of "where", placing ingo Google's folder of ID "to".
         """
 
         mime_type = self.get_mimetype(what)
-        file_metadata = {"name": what,"parents":[to]}
+        file_metadata = {"name": what, "parents": [to]}
         media = MediaFileUpload(str(where), mimetype=mime_type)
-        file = self.communicate.files().create(body=file_metadata,media_body=media,fields="id").execute()
+        file = self.communicate.files().create(
+            body=file_metadata, media_body=media, fields="id").execute()
         self.log.log_message(f"file {what} successfully uploaded")
-    
+
     def download(self, what_id: str, what_name: str, where: str) -> None:
         """
         Downloads file selected by ID and stores it in a file with "what_name" name and in "where" folder
@@ -69,7 +71,7 @@ class DriveService(GeneralService):
             f.write(fh.read())
             f.close()
             self.log.log_message(f"file {what_name} successfully downloaded")
-    
+
     def delete(self, file_id: str) -> None:
         """
         Removes file with ID put into the function from Google Drive completely
@@ -79,4 +81,3 @@ class DriveService(GeneralService):
         """
         self.communicate.files().delete(fileId=file_id).execute()
         self.log.log_message(f"file ID {file_id} successfully deleted")
-

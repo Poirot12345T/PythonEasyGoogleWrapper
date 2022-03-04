@@ -8,16 +8,13 @@ from google_exceptions import UnableToConnect
 from google.auth.exceptions import RefreshError
 
 def create_service(client_secret_file, api_name, api_version, user_mail, scopes):
-
     cred = None
-
     pickle_file = f'token_{user_mail}_{api_name}_{api_version}.pickle'
-
     if os.path.exists(pickle_file):
         with open(pickle_file, 'rb') as token:
             cred = pickle.load(token)
     if not cred or not cred.valid:
-        while True: #this while loop ensures that when the if fires, and then it realises that it's not possible to run the cred.refresh(), it still runs the "else" under except expression
+        while True:  # this while loop ensures that when the if fires, and then it realises that it's not possible to run the cred.refresh(), it still runs the "else" under except expression
             if cred and cred.expired and cred.refresh_token:
                 try:
                     cred.refresh(Request())
@@ -34,6 +31,5 @@ def create_service(client_secret_file, api_name, api_version, user_mail, scopes)
     if api_name == 'photoslibrary':
         service = build(api_name, api_version, credentials=cred, static_discovery=False)
         return service
-    else: 
+    else:
         service = build(api_name, api_version, credentials=cred)
-        

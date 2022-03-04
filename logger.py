@@ -2,7 +2,7 @@ from datetime import datetime
 from pytz import utc
 
 def get_time():
-    timenow = str(datetime.now(utc)).split("+")[0].replace(" ","T") + "UTC"
+    timenow = str(datetime.now(utc)).split("+")[0].replace(" ", "T") + "UTC"
     return timenow
 
 class Logger:
@@ -13,10 +13,9 @@ class Logger:
         print(logmessage)
         with open(self.logname, "a") as logfile:
             logfile.write("\n\n" + logmessage)
-        
+
     def log_message(self, message):
         logmessage = get_time() + ": " + message
         print(logmessage)
         with open(self.logname, "a") as logfile:
             logfile.write("\n" + logmessage)
-        
