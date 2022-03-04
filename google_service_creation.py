@@ -7,11 +7,11 @@ from google.auth.transport.requests import Request
 from google_exceptions import UnableToConnect
 from google.auth.exceptions import RefreshError
 
-def create_service(client_secret_file, api_name, api_version, scopes):
+def create_service(client_secret_file, api_name, api_version, user_mail, scopes):
 
     cred = None
 
-    pickle_file = f'token_{api_name}_{api_version}.pickle'
+    pickle_file = f'token_{user_mail}_{api_name}_{api_version}.pickle'
 
     if os.path.exists(pickle_file):
         with open(pickle_file, 'rb') as token:
