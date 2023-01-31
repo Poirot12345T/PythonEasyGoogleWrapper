@@ -3,6 +3,7 @@ from google_exceptions import UnknownFileType
 from googleapiclient.http import MediaFileUpload, MediaIoBaseDownload
 import io
 from general_service import GeneralService
+import json
 
 class DriveService(GeneralService):
     def __init__(self, app_type, secret_file, user_mail):
@@ -12,16 +13,14 @@ class DriveService(GeneralService):
         """
         returns a MIME type of the file
         """
-        suffix = file_name.split('.')[1].lower()
-        if suffix == "mov":
-            return "video/quicktime"
-        elif suffix == "jpg":
-            return "image/jpeg"
-        elif suffix == "txt":
-            return "text/plain"
-        else:
-            self.log.log_message(f'{file_name} is unsupported file type')
-            raise UnknownFileType
+        suffix = file_name.split(".")[1]
+        with open("mimetypes.json","r") as f:
+            mimetypes = json.load(f)
+            try:
+                return mimetypes[suffix]
+            except ValueError:
+                self.log.log_message(f'{file_name} is unsupported file type')
+                raise UnknownFileType
 
     def search_in_folder(self, id: str) -> dict:
         """
