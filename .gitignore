@@ -5,3 +5,4 @@ test*.json
 token*
 log*
 *.jpg
+.venv
