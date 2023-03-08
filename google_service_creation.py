@@ -7,14 +7,12 @@ from google.auth.transport.requests import Request
 from google_exceptions import UnableToConnect
 from google.auth.exceptions import RefreshError
 
-def create_service(client_secret_file, api_name, api_version, scopes):
+def create_service(client_secret_file, api_name, api_version, pickle_name, scopes):
 
     cred = None
 
-    pickle_file = f'token_{api_name}_{api_version}.pickle'
-
-    if os.path.exists(pickle_file):
-        with open(pickle_file, 'rb') as token:
+    if os.path.exists(pickle_name):
+        with open(pickle_name, 'rb') as token:
             cred = pickle.load(token)
     if not cred or not cred.valid:
         while True: #this while loop ensures that when the if fires, and then it realises that it's not possible to run the cred.refresh(), it still runs the "else" under except expression
@@ -23,12 +21,12 @@ def create_service(client_secret_file, api_name, api_version, scopes):
                     cred.refresh(Request())
                     break
                 except RefreshError:
-                    os.remove(pickle_file)
+                    os.remove(pickle_name)
             flow = InstalledAppFlow.from_client_secrets_file(client_secret_file, scopes)
             cred = flow.run_local_server()
             break
 
-        with open(pickle_file, 'wb') as token:
+        with open(pickle_name, 'wb') as token:
             pickle.dump(cred, token)
 
     if api_name == 'photoslibrary':
