@@ -34,3 +34,4 @@ def create_service(client_secret_file, api_name, api_version, pickle_name, scope
         return service
     else:
         service = build(api_name, api_version, credentials=cred)
+        return service
