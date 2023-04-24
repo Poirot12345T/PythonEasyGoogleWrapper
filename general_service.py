@@ -8,9 +8,9 @@ class GeneralService:
         self.log = Logger(app_type, f'{api_name} service init')
         mail_without_dot = user_mail.replace(".", "-")
         broken_scopes = [scope for scope in scopes[0]]
-        self.communicate = create_service(client_secret_file, api_name, api_version, mail_without_dot, broken_scopes)
-        self.log.log_message('service created sucessfully')
         self.pickle_file = f'token_{mail_without_dot}_{api_name}_{api_version}.pickle'
+        self.communicate = create_service(client_secret_file, api_name, api_version, self.pickle_file, broken_scopes)
+        self.log.log_message('service created sucessfully')
         with open(self.pickle_file, 'rb') as pickle_content:
             cred = pickle.load(pickle_content)
             self.cred_expiry = cred.expiry
