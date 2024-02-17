@@ -12,5 +12,14 @@ class SheetService(GeneralService):
         range_def = f"{list_name}!{begin_cell}:{end_cell}"
         call_result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=range_def).execute()
         return call_result.get('values',[])
+    
+    def get_spreadsheet(self, spreadsheet_id: str, list_name: str) -> list:
+        """
+        Returns all data from spreadsheet
+        """
+        range_def = f"{list_name}"
+        call_result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=range_def).execute()
+        return call_result.get('values',[])
+        
 
         
