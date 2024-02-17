@@ -32,7 +32,7 @@ class DriveService(GeneralService):
         nextPageToken = response.get('nextPageToken')
 
         while nextPageToken:
-            response = self.communicate.files.list(
+            response = self.communicate.files().list(
                 q=query, pageToken=nextPageToken).execute()
             files.extend(response.get('files'))
             nextPageToken = response.get('nextPageToken')
