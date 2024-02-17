@@ -80,3 +80,19 @@ class DriveService(GeneralService):
         """
         self.communicate.files().delete(fileId=file_id).execute()
         self.log.log_message(f"file ID {file_id} successfully deleted")
+        
+    def create_folder(self, name: str, parent: str) -> str:
+        """
+        Creates folder. If you want to create folder in root, fill "parent" as "".
+        Returns folder ID.
+        """
+        
+        parent_list = []
+        metadata = {
+            'name': name,
+            'mimeType':'application/vnd.google-apps.folder'
+        }
+        
+        if parent != "": metadata["parents"] = []; metadata["parents"].append(parent)
+        done = self.communicate.files().create(body=metadata).execute()
+        return done["id"]
