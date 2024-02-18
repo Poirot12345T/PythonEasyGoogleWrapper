@@ -7,7 +7,7 @@ import json
 
 class DriveService(GeneralService):
     def __init__(self, app_type, secret_file, user_mail):
-        super().__init__(app_type, secret_file, 'drive', 'v3', user_mail, ["https://www.googleapis.com/auth/drive"])
+        super().__init__(app_type, secret_file, 'drive', 'v3', user_mail, ["https://www.googleapis.com/auth/drive", 'https://www.googleapis.com/auth/drive.file', 'https://www.googleapis.com/auth/drive.metadata'])
 
     def get_mimetype(self, file_name: str) -> str:
         """
@@ -22,18 +22,26 @@ class DriveService(GeneralService):
                 self.log.log_message(f'{file_name} is unsupported file type')
                 raise UnknownFileType
 
-    def search_in_folder(self, id: str) -> dict:
+    def search_in_folder(self, id: str, teamdrive_id: str = None) -> dict:
         """
         returns info about all files in folder as a list of dicts, where one dict includes: ID (as 'id' key), name and MIME type (key 'mimeType')
         """
         query = f"parents = '{id}'"
-        response = self.communicate.files().list(q=query).execute()
+        kw_args = {
+            "q":query
+        }
+        if teamdrive_id:
+            kw_args["includeItemsFromAllDrives"] = True
+            kw_args["supportsAllDrives"] = True
+            kw_args["corpora"] = "drive"
+            kw_args["driveId"] = teamdrive_id 
+        response = self.communicate.files().list(**kw_args).execute()
         files = response.get('files')
         nextPageToken = response.get('nextPageToken')
 
         while nextPageToken:
-            response = self.communicate.files().list(
-                q=query, pageToken=nextPageToken).execute()
+            kw_args["pageToken"] = nextPageToken
+            response = self.communicate.files().list(**kw_args).execute()
             files.extend(response.get('files'))
             nextPageToken = response.get('nextPageToken')
         return files
