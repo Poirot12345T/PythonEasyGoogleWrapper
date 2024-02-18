@@ -21,5 +21,25 @@ class SheetService(GeneralService):
         call_result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=range_def).execute()
         return call_result.get('values',[])
         
+    def write_data(self, spreadsheet_id: str, sheet_name: str, start_cell: str, data: tuple, rowcol: str = "ROWS"):
+        """Writes data to sheet.
 
+        Args:
+            spreadsheet_id (str): ID of specified spreadsheet to write into
+            sheet_name (str): Name of list in spreadseet
+            start_cell (str): left-up cell of written data.
+            data (tuple): 2D tuple array of written data.
+            rowcol (str, optional): Sets "major axis". If "ROWS" selected, data are written in the same "oreintation" as visualised in IDE. Setting "COLUMNS" makes transposition.  Defaults to "ROWS".
+        """
         
+        values = {
+            'majorDimension': rowcol,
+            'values':data
+        }
+
+        self.sheet.values().update(
+            spreadsheetId=spreadsheet_id,
+            valueInputOption="USER_ENTERED",
+            range=f"{sheet_name}!{start_cell}",
+            body=values
+            ).execute()
