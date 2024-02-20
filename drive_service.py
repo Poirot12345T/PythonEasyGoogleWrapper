@@ -102,5 +102,5 @@ class DriveService(GeneralService):
         }
         
         if parent != "": metadata["parents"] = []; metadata["parents"].append(parent)
-        done = self.communicate.files().create(body=metadata).execute()
+        done = self.communicate.files().create(supportsAllDrives=True, body=metadata).execute()
         return done["id"]
