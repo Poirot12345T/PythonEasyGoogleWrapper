@@ -56,3 +56,17 @@ Functions made:
 - `unshare_album()` unshares the album
 
 All these functions in specific cases are called directly from `service`, for example `service.search_in_folder(id)`.
+
+### Specific case - Google Spreadsheets
+`SheetService` has prefilled API version, name and its scopes.
+
+Functions made:
+- `get_selected_data()` reads data from selected range in spreadsheet.
+- `get_spreadsheet()` reads data from whole list of selected spreadsheet.
+- `write_data()` writes data to selected range of cells.
+
+### Specific case - Google Mail
+`MailService` has prefilledd API version, name and its scopes.
+
+Functions made:
+- `compose_mail()` composes and sends an e-mail to selected e-mail address.
