@@ -11,7 +11,15 @@ class MailService(GeneralService):
     def __init__(self, app_type, client_secret_file, user_mail):
         super().__init__(app_type, client_secret_file, 'gmail', 'v1', user_mail, ['https://mail.google.com/'])
 
-    def compose_mail(self, to: str, subject: str, mail_body: str, attachments = None) -> None:
+    def compose_mail(self, to: str, subject: str, mail_body: str, attachments: list = None) -> None:
+        """Sends an e-mail to selected e-mail address, signing as logged user.
+
+        Args:
+            to (str): Addressee of the message
+            subject (str): Subject of the message
+            mail_body (str): Text of the message
+            attachments (list, optional): List of paths to attachments. Defaults to None.
+        """
         message = MIMEMultipart()
         message['to'] = to
         message['subject'] = subject
