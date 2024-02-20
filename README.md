@@ -15,8 +15,13 @@ To make orientation a little easier, each class (representing connection to API 
 - [x] Drive API
 - [x] Google Photos API
 - [ ] Google Spreadsheet API
+    - [x] reading whole list
+    - [x] reading selected area
+    - [x] writing to selected area
 - [ ] Google Calendar API
 - [ ] Google Mail API
+    - [x] writing e-mails
+    - [ ] getting e-mails from inbox
 - [ ] Google Translator API
 
 ## How to use
