@@ -6,16 +6,30 @@ class SheetService(GeneralService):
         self.sheet = self.communicate.spreadsheets()
 
     def get_selected_data(self, spreadsheet_id: str, list_name: str, begin_cell: str, end_cell: str) -> list:
-        """
-        Returns 2D array from selected range of spreadsheet
+        """Returns 2D array from selected range of spreadsheet.
+
+        Args:
+            spreadsheet_id (str): ID of selected spreadsheet
+            list_name (str): name of selected list
+            begin_cell (str): Top-left cell of selected area
+            end_cell (str): Bottom-right cell of selected area
+
+        Returns:
+            list: _description_
         """
         range_def = f"{list_name}!{begin_cell}:{end_cell}"
         call_result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=range_def).execute()
         return call_result.get('values',[])
     
     def get_spreadsheet(self, spreadsheet_id: str, list_name: str) -> list:
-        """
-        Returns all data from spreadsheet
+        """Returns all data from selected spreadsheet list.
+
+        Args:
+            spreadsheet_id (str): ID of selected spreadsheet
+            list_name (str): name of list to read
+
+        Returns:
+            list: 2D list of all data
         """
         range_def = f"{list_name}"
         call_result = self.sheet.values().get(spreadsheetId=spreadsheet_id, range=range_def).execute()
